@@ -61,58 +61,58 @@ const ITENS = {
     [20, "Quinta-Roda e Gavião (examinar folga) Pino Rei"],
     [21, "Pneus (avaliar acima de 2,5 mm +/- 0,5 mm) inclusive estepe - aperto de parafusos das rodas"],
     [22, "Alinhamento e Balanceamento"],
-    [56, "Tanques de combustível sem vazamentos e suporte do tanque"],
-    [57, "Defletor de ar"],
-    [58, "Estofados, capas, cortinas, carpetes e tapetes"]
+    [23, "Tanques de combustível sem vazamentos e suporte do tanque"],
+    [24, "Defletor de ar"],
+    [25, "Estofados, capas, cortinas, carpetes e tapetes"]
   ],
   gases: [
-    [23, "Verificação opacidade"]
+    [26, "Verificação opacidade"]
   ],
   freio_sr: [
-    [24, "Verificar Lonas"],
-    [25, "Verificar Cubos e Rolamentos"]
+    [27, "Verificar Lonas"],
+    [28, "Verificar Cubos e Rolamentos"]
   ],
   outros: [
-    [26, "Válvulas"],
-    [27, "Acoplamentos"],
-    [28, "Gaxetas / Selos"],
-    [29, "Mangotes e Medidores"],
-    [30, "Unidades de Controle de Temperaturas"],
-    [31, "Equipamentos de Segurança"],
-    [32, "Placas de simbologia"],
-    [33, "Válvulas de Alívio"],
-    [34, "Óleo do Compressor (verificar)"],
-    [35, "Filtro do Compressor (verificar estado)"],
-    [36, "Compressor (Fazer Teste)"],
-    [37, "Motor da Glucose e seus Componentes (Fazer Teste)"],
-    [38, "Bomba Descarga (Fazer Teste)"],
-    [39, "Verificar Parte Elétrica (cabos e caixa elétrica)"],
-    [59, { type:'qty', label:'Cintas' }],
-    [60, { type:'qty', label:'Catracas' }],
-    [61, { type:'qty', label:'Cantoneiras' }],
-    [62, { type:'qty', label:'Réguas' }],
-    [63, "Lonas laterais, teto e cabo de aço"],
-    [64, { type:'mes', label:'Extintor' }]
+    [29, "Válvulas"],
+    [30, "Acoplamentos"],
+    [31, "Gaxetas / Selos"],
+    [32, "Mangotes e Medidores"],
+    [33, "Unidades de Controle de Temperaturas"],
+    [34, "Equipamentos de Segurança"],
+    [35, "Placas de simbologia"],
+    [36, "Válvulas de Alívio"],
+    [37, "Óleo do Compressor (verificar)"],
+    [38, "Filtro do Compressor (verificar estado)"],
+    [39, "Compressor (Fazer Teste)"],
+    [40, "Motor da Glucose e seus Componentes (Fazer Teste)"],
+    [41, "Bomba Descarga (Fazer Teste)"],
+    [42, "Verificar Parte Elétrica (cabos e caixa elétrica)"],
+    [43, { type:'qty', label:'Cintas' }],
+    [44, { type:'qty', label:'Catracas' }],
+    [45, { type:'qty', label:'Cantoneiras' }],
+    [46, { type:'qty', label:'Réguas' }],
+    [47, "Lonas laterais, teto e cabo de aço"],
+    [48, { type:'mes', label:'Extintor' }]
   ],
   chassi_sr: [
-    [39, "Longarinas e Travessas (verificar corrosão / trinca / torção / amassado)"],
-    [40, "Para-choque (amassado / Pintura)"],
-    [41, "Placa (Lacre / Iluminação / Pintura)"],
-    [42, "Suporte dos Grampos (verificar: grampos/porcas/feixe de molas/batentes e suportes)"],
-    [43, "Para-Lama / Para-barro (verificar)"],
-    [44, "Quinta-Roda (examinar folga)"],
-    [45, "Pneus (avaliar acima de 2,5 mm +/- 0,5 mm) inclusive estepe"],
-    [46, "Reaperto de Parafusos de Rodas"],
-    [47, "Reaperto Rala"],
-    [48, "Reaperto Pistão"],
-    [49, "Reaperto Pés e Conexões"],
-    [51, "Alinhamento e Balanceamento"]
+    [49, "Longarinas e Travessas (verificar corrosão / trinca / torção / amassado)"],
+    [50, "Para-choque (amassado / Pintura)"],
+    [51, "Placa (Lacre / Iluminação / Pintura)"],
+    [52, "Suporte dos Grampos (verificar: grampos/porcas/feixe de molas/batentes e suportes)"],
+    [53, "Para-Lama / Para-barro (verificar)"],
+    [54, "Quinta-Roda (examinar folga)"],
+    [55, "Pneus (avaliar acima de 2,5 mm +/- 0,5 mm) inclusive estepe"],
+    [56, "Reaperto de Parafusos de Rodas"],
+    [57, "Reaperto Rala"],
+    [58, "Reaperto Pistão"],
+    [59, "Reaperto Pés e Conexões"],
+    [60, "Alinhamento e Balanceamento"]
   ],
   suspensao: [
-    [52, "Molas, Pinos e Estirantes"]
+    [61, "Molas, Pinos e Estirantes"]
   ],
   carga: [
-    [55, "Lonas de Forração, Cordas, Madeirite e travas (uso somente para baú)"]
+    [62, "Lonas de Forração, Cordas, Madeirite e travas (uso somente para baú)"]
   ]
 };
 
