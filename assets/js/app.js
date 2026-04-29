@@ -5,7 +5,6 @@ const o = document.getElementById(‘login-overlay’);
 if (o) o.style.display = ‘none’;
 }
 })();
-
 function tentarLogin() {
 const user = (document.getElementById(‘login-user’)?.value || ‘’).trim();
 const pass = (document.getElementById(‘login-pass’)?.value || ‘’).trim();
