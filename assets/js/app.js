@@ -24,8 +24,8 @@ function tentarLogin() {
 }
 
 // ── DADOS ────────────────────────────────────────────────────────────────
-const MESES     = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-const ANO_ATUAL = new Date().getFullYear();
+const MESES      = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const ANO_ATUAL  = new Date().getFullYear();
 const PALAVRAS_DESTAQUE = ['CAVALO','CARRETA 1','CARRETA 2','CARRETA'];
 
 const ITENS = {
@@ -123,8 +123,7 @@ const MAP = {
 const GRUPOS_CAVALO = ['lub','motor','eletrica','freio_cav','cabine','chassi_cav','gases'];
 const GRUPOS_SR     = ['freio_sr','outros','chassi_sr','suspensao','carga'];
 
-// atribuição de carreta para itens NOK do SR quando rodotrem ativo
-// chave: número do item → 'CARRETA 1' | 'CARRETA 2' | null (não definido ainda)
+// mapa de atribuição de carreta para NOKs do SR quando rodotrem ativo
 const nokCarretaMap = {};
 
 function descItem(d) {
@@ -135,10 +134,6 @@ function descItem(d) {
 
 function isExtintor(d) {
   return typeof d === 'object' && d.type === 'mes' && d.label === 'Extintor';
-}
-
-function isSRGrupo(grp) {
-  return GRUPOS_SR.includes(grp);
 }
 
 // ── RENDERIZAÇÃO ─────────────────────────────────────────────────────────
@@ -175,77 +170,87 @@ function isSRGrupo(grp) {
         <td>${celulaDesc}</td>
         <td>
           <div class="chk-group">
-            <label class="chk-option"><input type="checkbox" id="i${n}_ok" onchange="onCheck(${n},'${grp}')"> OK</label>
-            <label class="chk-option"><input type="checkbox" id="i${n}_nok" class="chk-nok" onchange="onCheck(${n},'${grp}')"> NOK</label>
-            <label class="chk-option"><input type="checkbox" id="i${n}_na" onchange="onCheck(${n},'${grp}')"> NA</label>
+            <label class="chk-option"><input type="checkbox" id="i${n}_ok"> OK</label>
+            <label class="chk-option"><input type="checkbox" id="i${n}_nok" class="chk-nok"> NOK</label>
+            <label class="chk-option"><input type="checkbox" id="i${n}_na"> NA</label>
           </div>
         </td>`;
       tb.appendChild(tr);
+
+      // listeners adicionados via JS para suportar async corretamente
+      document.getElementById(`i${n}_ok`) .addEventListener('change', () => onCheck(n, grp));
+      document.getElementById(`i${n}_nok`).addEventListener('change', () => onCheck(n, grp));
+      document.getElementById(`i${n}_na`) .addEventListener('change', () => onCheck(n, grp));
     });
   }
 })();
 
 // ── POPUP CARRETA 1 / CARRETA 2 ──────────────────────────────────────────
-let _popupResolve = null;
+// Usando callbacks em vez de Promise para compatibilidade máxima com iOS/Safari
+let _popupCallback = null;
 
-function mostrarPopupCarreta(descricao) {
-  return new Promise(resolve => {
-    _popupResolve = resolve;
-    document.getElementById('popup-item-desc').textContent = descricao;
-    const pop = document.getElementById('popup-carreta');
-    pop.style.display = 'flex';
-  });
+function mostrarPopupCarreta(descricao, callback) {
+  _popupCallback = callback;
+  document.getElementById('popup-item-desc').textContent = descricao;
+  document.getElementById('popup-carreta').style.display = 'flex';
 }
 
 function resolverCarreta(opcao) {
   document.getElementById('popup-carreta').style.display = 'none';
-  if (_popupResolve) { _popupResolve(opcao); _popupResolve = null; }
+  if (_popupCallback) {
+    const cb = _popupCallback;
+    _popupCallback = null;
+    cb(opcao);
+  }
 }
 
 function cancelarCarreta() {
   document.getElementById('popup-carreta').style.display = 'none';
-  if (_popupResolve) { _popupResolve(null); _popupResolve = null; }
+  if (_popupCallback) {
+    const cb = _popupCallback;
+    _popupCallback = null;
+    cb(null);
+  }
 }
 
 // ── ON CHECK ─────────────────────────────────────────────────────────────
-async function onCheck(n, grp) {
+function onCheck(n, grp) {
   const nok = document.getElementById(`i${n}_nok`)?.checked;
   const rt  = document.getElementById('tipo_rodotrem')?.checked;
+  const tr  = document.querySelector(`tr[data-n="${n}"]`);
 
-  // destaca linha
-  const tr = document.querySelector(`tr[data-n="${n}"]`);
   if (tr) tr.classList.toggle('nok-row', !!nok);
 
-  // se NOK no SR com rodotrem → pergunta qual carreta
-  if (nok && rt && isSRGrupo(grp)) {
-    const d    = encontrarItem(n);
-    const desc = descItem(d);
-    const escolha = await mostrarPopupCarreta(desc);
-    if (escolha) {
-      nokCarretaMap[n] = escolha;
-    } else {
-      // cancelou → desmarca NOK
-      document.getElementById(`i${n}_nok`).checked = false;
-      if (tr) tr.classList.remove('nok-row');
-      delete nokCarretaMap[n];
-    }
-  } else if (!nok) {
-    delete nokCarretaMap[n];
+  if (nok && rt && GRUPOS_SR.includes(grp)) {
+    // mostra popup e aguarda escolha via callback
+    const desc = descItem(encontrarItem(n));
+    mostrarPopupCarreta(desc, function(escolha) {
+      if (escolha) {
+        nokCarretaMap[n] = escolha;
+      } else {
+        document.getElementById(`i${n}_nok`).checked = false;
+        if (tr) tr.classList.remove('nok-row');
+        delete nokCarretaMap[n];
+      }
+      atualizarObsNOK();
+    });
+    return; // não atualiza obs ainda — aguarda callback
   }
 
+  if (!nok) delete nokCarretaMap[n];
   atualizarObsNOK();
 }
 
 function encontrarItem(n) {
-  for (const grp of Object.values(MAP)) {
-    for (const [num, d] of (ITENS[grp] || [])) {
+  for (const grp of Object.keys(ITENS)) {
+    for (const [num, d] of ITENS[grp]) {
       if (num === n) return d;
     }
   }
   return String(n);
 }
 
-// ── HELPERS DE ESTADO ────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────────
 function getChecks(n) {
   const v = [];
   if (document.getElementById(`i${n}_ok`)?.checked)  v.push('OK');
@@ -284,9 +289,10 @@ function coletarNOK(grupos, filtroCarreta) {
   for (const grp of grupos) {
     (ITENS[grp] || []).forEach(([n, d]) => {
       if (!document.getElementById(`i${n}_nok`)?.checked) return;
-      // se filtroCarreta definido, filtra pelo mapa
       if (filtroCarreta !== undefined) {
-        if (nokCarretaMap[n] !== filtroCarreta) return;
+        const atrib = nokCarretaMap[n];
+        // inclui se atribuído exatamente ao filtro OU se atribuído como AMBAS
+        if (atrib !== filtroCarreta && atrib !== 'AMBAS') return;
       }
       let txt = descItem(d).toUpperCase();
       const extra = getExtra(n, d);
@@ -300,7 +306,6 @@ function coletarNOK(grupos, filtroCarreta) {
 
 function atualizarObsNOK() {
   const rt = document.getElementById('tipo_rodotrem')?.checked;
-  const sd = document.getElementById('tipo_sider')?.checked;
 
   const nokCav = coletarNOK(GRUPOS_CAVALO, undefined);
   let autoTxt  = '';
@@ -308,7 +313,6 @@ function atualizarObsNOK() {
   if (nokCav.length) autoTxt += 'CAVALO\n' + nokCav.join('\n') + '\n\n';
 
   if (rt) {
-    // rodotrem: separa por CARRETA 1 e CARRETA 2
     const nok1 = coletarNOK(GRUPOS_SR, 'CARRETA 1');
     const nok2 = coletarNOK(GRUPOS_SR, 'CARRETA 2');
     if (nok1.length) autoTxt += 'CARRETA 1\n' + nok1.join('\n') + '\n\n';
@@ -318,9 +322,9 @@ function atualizarObsNOK() {
     if (nokSR.length) autoTxt += 'CARRETA\n' + nokSR.join('\n') + '\n\n';
   }
 
-  const obsEl = document.getElementById('observacoes');
-  const SEP   = '\u200B';
-  const atual = obsEl.value;
+  const obsEl  = document.getElementById('observacoes');
+  const SEP    = '\u200B';
+  const atual  = obsEl.value;
   const manual = atual.includes(SEP) ? atual.split(SEP)[0].trimEnd() : atual.trimEnd();
 
   let novo = '';
@@ -397,14 +401,17 @@ function irEtapa(n)    { etapaAtual = n; atualizarEtapa(); }
 
 function atualizarEtapa() {
   [1,2,3].forEach(i => document.getElementById(`step${i}`).style.display = i === etapaAtual ? '' : 'none');
-  [1,2,3].map(i => document.getElementById(`dot${i}`)).forEach((d, i) => {
-    d.classList.remove('active','done');
-    document.getElementById(`lbl${i+1}`).classList.remove('active','done');
-    if (i+1 < etapaAtual)       { d.classList.add('done');   document.getElementById(`lbl${i+1}`).classList.add('done'); }
-    else if (i+1 === etapaAtual) { d.classList.add('active'); document.getElementById(`lbl${i+1}`).classList.add('active'); }
+  [1,2,3].forEach((_, i) => {
+    const dot = document.getElementById(`dot${i+1}`);
+    const lbl = document.getElementById(`lbl${i+1}`);
+    dot.classList.remove('active','done'); lbl.classList.remove('active','done');
+    if (i+1 < etapaAtual)       { dot.classList.add('done');   lbl.classList.add('done'); }
+    else if (i+1 === etapaAtual) { dot.classList.add('active'); lbl.classList.add('active'); }
   });
-  [1,2].map(i => document.getElementById(`line${i}`)).forEach((l, i) => {
-    l.classList.remove('done'); if (i+1 < etapaAtual) l.classList.add('done');
+  [1,2].forEach((_, i) => {
+    const line = document.getElementById(`line${i+1}`);
+    line.classList.remove('done');
+    if (i+1 < etapaAtual) line.classList.add('done');
   });
   if (etapaAtual === 3) {
     document.getElementById('prev_conf').src = document.getElementById('canvas_conf').toDataURL('image/png');
@@ -412,7 +419,9 @@ function atualizarEtapa() {
   }
 }
 
-document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) fecharModal(); });
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) fecharModal();
+});
 
 const gv = id => (document.getElementById(id) || {}).value || '';
 const gc = id => document.getElementById(id)?.checked || false;
@@ -435,7 +444,7 @@ function gerarPDF() {
     doc.text('CHECK LIST DE MANUTENCAO PREVENTIVA', ML+2, 9.5);
     try {
       const logo = document.getElementById('logo-img-hidden');
-      if (logo && logo.complete) doc.addImage(logo,'PNG', W-ML-30, 0.5, 30, 14);
+      if (logo && logo.complete) doc.addImage(logo, 'PNG', W-ML-30, 0.5, 30, 14);
     } catch(e) {}
     y = 17;
     doc.setLineWidth(.25); doc.setDrawColor(160);
@@ -463,8 +472,10 @@ function gerarPDF() {
     doc.text('NOME MOTORISTA',ML+1,y+2.2); doc.text('PLACA CAVALO',ML+cW*.44+1,y+2.2);
     doc.text('PLACA SR1',ML+cW*.63+1,y+2.2); doc.text('PLACA SR2',ML+cW*.81+1,y+2.2);
     doc.setFont('helvetica','normal');
-    doc.text(gv('motorista'),ML+1,y+4.8); doc.text(gv('placa_cavalo'),ML+cW*.44+1,y+4.8);
-    doc.text(gv('placa_sr1'),ML+cW*.63+1,y+4.8); doc.text(gv('placa_sr2'),ML+cW*.81+1,y+4.8);
+    doc.text(gv('motorista'),ML+1,y+4.8);
+    doc.text(gv('placa_cavalo'),ML+cW*.44+1,y+4.8);
+    doc.text(gv('placa_sr1'),ML+cW*.63+1,y+4.8);
+    doc.text(gv('placa_sr2'),ML+cW*.81+1,y+4.8);
     y+=8;
   }
 
@@ -497,17 +508,14 @@ function gerarPDF() {
     if (par) { doc.setFillColor(248,249,253); doc.rect(ML,y,cW,rh,'F'); }
     doc.setLineWidth(.13); doc.setDrawColor(200);
     doc.rect(ML,y,cW,rh); doc.line(ML+9,y,ML+9,y+rh); doc.line(ML+cW-50,y,ML+cW-50,y+rh);
-
     doc.setFontSize(5.8); doc.setFont('helvetica','bold'); doc.setTextColor(140,140,140);
     doc.text(String(n),ML+4.5,y+2.7,{align:'center'});
-
     doc.setFont('helvetica','normal'); doc.setTextColor(15,15,15);
     let txt = desc;
     if (extra) txt += `  ${extra}`;
     if (nok)   txt += ' NOK';
     if (nok && ext) txt += ' - TROCAR';
     doc.text(doc.splitTextToSize(txt, cW-62), ML+10.5, y+2.7);
-
     const checks = getChecks(n);
     doc.setFontSize(5.5); doc.setTextColor(15,15,15);
     doc.text(`(${checks.includes('OK')?'X':' '}) OK  (${checks.includes('NOK')?'X':' '}) NOK  (${checks.includes('NA')?'X':' '}) NA`, ML+cW-49, y+2.7);
@@ -566,7 +574,7 @@ function gerarPDF() {
     doc.rect(ML,obsTop,cW,obsH);
     for (let i=1; i*4<obsH-2; i++) { doc.setDrawColor(220); doc.line(ML+2,obsTop+i*4,ML+cW-2,obsTop+i*4); }
     const SEP    = '\u200B';
-    const rawObs = gv('observacoes').replace(SEP,'').toUpperCase().trim();
+    const rawObs = gv('observacoes').replace(new RegExp(SEP,'g'),'').toUpperCase().trim();
     if (rawObs) {
       const linhas  = doc.splitTextToSize(rawObs, cW-6);
       const palavras = [...PALAVRAS_DESTAQUE].sort((a,b)=>b.length-a.length);
