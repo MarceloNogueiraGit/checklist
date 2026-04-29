@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -12,6 +13,7 @@
 <img id="logo-img-hidden" src="assets/img/logo.png" style="display:none" crossorigin="anonymous">
 
 <!-- ── LOGIN ─────────────────────────────────────────────────────────── -->
+
 <div id="login-overlay">
   <div class="login-bg">
     <div class="lp lp1"></div><div class="lp lp2"></div>
@@ -39,6 +41,7 @@
 </div>
 
 <!-- ── HEADER ────────────────────────────────────────────────────────── -->
+
 <header>
   <div class="header-text">
     <h1>Check List de Manutenção Preventiva</h1>
@@ -50,6 +53,7 @@
 <div class="wrap">
 
   <!-- IDENTIFICAÇÃO -->
+
   <div class="card">
     <div class="card-header">Identificação</div>
     <div class="fields col4" style="margin-bottom:14px">
@@ -75,6 +79,7 @@
   </div>
 
   <!-- CAVALO MECÂNICO -->
+
   <div class="card">
     <div class="card-header">Cavalo Mecânico</div>
     <div class="sub-title">Lubrificação</div>
@@ -94,6 +99,7 @@
   </div>
 
   <!-- SEMI-REBOQUE -->
+
   <div class="card">
     <div class="card-header">Semi-Reboque</div>
     <div class="sub-title">Freio</div>
@@ -109,6 +115,7 @@
   </div>
 
   <!-- OBSERVAÇÕES -->
+
   <div class="card">
     <div class="card-header">Observações</div>
     <div class="field-label">
@@ -122,12 +129,14 @@
     </div>
   </div>
 
-  <button class="btn-pdf" onclick="abrirModal()">✍ Assinar e Gerar PDF</button>
+<button class="btn-pdf" onclick="abrirModal()">✍ Assinar e Gerar PDF</button>
+
 </div>
 
 <footer>JCE Transportes · Check List de Manutenção Preventiva · Rev. 00</footer>
 
 <!-- ── MODAL ASSINATURAS ──────────────────────────────────────────────── -->
+
 <div id="modal-overlay">
   <div id="modal">
     <div class="steps-wrap">
@@ -188,6 +197,7 @@
 </div>
 
 <!-- ── POPUP CARRETA 1 / CARRETA 2 / AMBAS ────────────────────────────── -->
+
 <div id="popup-carreta" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;">
   <div style="background:#fff;border-radius:12px;padding:28px 32px;width:360px;max-width:94vw;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center;">
     <p style="font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:6px;">NOK em qual carreta?</p>
@@ -206,5 +216,6 @@
 </div>
 
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>
