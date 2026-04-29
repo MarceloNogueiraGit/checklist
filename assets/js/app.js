@@ -1,26 +1,4 @@
-// ── LOGIN ────────────────────────────────────────────────────────────────
-(function verificarLogin() {
-if (sessionStorage.getItem(‘jce_auth’) === ‘1’) {
-const o = document.getElementById(‘login-overlay’);
-if (o) o.style.display = ‘none’;
-}
-})();
-function tentarLogin() {
-const user = (document.getElementById(‘login-user’)?.value || ‘’).trim();
-const pass = (document.getElementById(‘login-pass’)?.value || ‘’).trim();
-const erro = document.getElementById(‘login-erro’);
-if (user === ‘jce.adminis’ && pass === ‘adminis’) {
-sessionStorage.setItem(‘jce_auth’, ‘1’);
-const o = document.getElementById(‘login-overlay’);
-o.classList.add(‘hide’);
-setTimeout(() => o.style.display = ‘none’, 520);
-} else {
-erro.textContent = ‘Usuário ou senha incorretos.’;
-document.getElementById(‘login-pass’).value = ‘’;
-document.getElementById(‘login-pass’).focus();
-setTimeout(() => erro.textContent = ‘’, 3000);
-}
-}
+// 
 
 // ── DADOS ────────────────────────────────────────────────────────────────
 const MESES      = [‘JAN’,‘FEV’,‘MAR’,‘ABR’,‘MAI’,‘JUN’,‘JUL’,‘AGO’,‘SET’,‘OUT’,‘NOV’,‘DEZ’];
