@@ -3,25 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JCE Transporte – Check List</title>
+<title>JCE Transportes – Check List</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!-- imagem oculta do logo para uso no PDF -->
 <img id="logo-img-hidden" src="assets/img/logo.png" style="display:none" crossorigin="anonymous">
 
-<!-- ── TELA DE LOGIN ─────────────────────────────────────────────────── -->
+<!-- ── LOGIN ─────────────────────────────────────────────────────────── -->
 <div id="login-overlay">
   <div class="login-bg">
     <div class="lp lp1"></div><div class="lp lp2"></div>
     <div class="lp lp3"></div><div class="lp lp4"></div>
   </div>
   <div class="login-card">
-    <div class="login-logo">
-      <img src="assets/img/logo.png" alt="JCE Transportes" class="logo-svg">
-    </div>
+    <div class="login-logo"><img src="assets/img/logo.png" alt="JCE Transportes"></div>
     <h2 class="login-title">Acesso ao Sistema</h2>
     <p class="login-sub">Check List de Manutenção Preventiva</p>
     <div class="login-form">
@@ -43,11 +40,11 @@
 
 <!-- ── HEADER ────────────────────────────────────────────────────────── -->
 <header>
-  <img src="assets/img/logo.png" alt="JCE Transportes" class="header-logo">
-  <div>
+  <div class="header-text">
     <h1>Check List de Manutenção Preventiva</h1>
     <p>Frota / Manutenção — JCE Transportes</p>
   </div>
+  <img src="assets/img/logo.png" alt="JCE Transportes" class="header-logo">
 </header>
 
 <div class="wrap">
@@ -56,24 +53,24 @@
   <div class="card">
     <div class="card-header">Identificação</div>
     <div class="fields col4" style="margin-bottom:14px">
-      <label><span>Data</span><input type="date" id="data"></label>
-      <label><span>Revisão</span><input type="text" id="revisao" value="00"></label>
-      <label><span>KM</span><input type="text" id="km" placeholder="Ex: 150.000" oninput="formatarKM(this)"></label>
-      <label><span>Departamento</span><input type="text" id="departamento" value="Frota / Manutenção"></label>
+      <div class="field-label"><span>Data</span><input type="date" id="data"></div>
+      <div class="field-label"><span>Revisão</span><input type="text" id="revisao" value="00"></div>
+      <div class="field-label"><span>KM</span><input type="text" id="km" placeholder="Ex: 150.000" oninput="formatarKM(this)"></div>
+      <div class="field-label"><span>Departamento</span><input type="text" id="departamento" value="Frota / Manutenção"></div>
     </div>
     <div style="margin-bottom:14px">
       <span style="font-size:10.5px;font-weight:700;color:var(--label);text-transform:uppercase;letter-spacing:.5px;">Tipo de Veículo (selecione um ou mais)</span>
       <div class="tipo-group">
-        <label><input type="checkbox" id="tipo_cavalo" onchange="atualizarObsNOK()"><span>Cavalo</span></label>
-        <label><input type="checkbox" id="tipo_sider"  onchange="atualizarObsNOK()"><span>Sider</span></label>
-        <label><input type="checkbox" id="tipo_rodotrem" onchange="atualizarObsNOK()"><span>Rodotrem</span></label>
+        <label class="tipo-option"><input type="checkbox" id="tipo_cavalo" onchange="atualizarObsNOK()"><span>Cavalo</span></label>
+        <label class="tipo-option"><input type="checkbox" id="tipo_sider"  onchange="atualizarObsNOK()"><span>Sider</span></label>
+        <label class="tipo-option"><input type="checkbox" id="tipo_rodotrem" onchange="atualizarObsNOK()"><span>Rodotrem</span></label>
       </div>
     </div>
     <div class="fields col5">
-      <label><span>Nome do Motorista</span><input type="text" id="motorista"></label>
-      <label><span>Placa Cavalo</span><input type="text" id="placa_cavalo" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></label>
-      <label><span>Placa SR1</span><input type="text" id="placa_sr1" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></label>
-      <label><span>Placa SR2</span><input type="text" id="placa_sr2" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></label>
+      <div class="field-label"><span>Nome do Motorista</span><input type="text" id="motorista"></div>
+      <div class="field-label"><span>Placa Cavalo</span><input type="text" id="placa_cavalo" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
+      <div class="field-label"><span>Placa SR1</span><input type="text" id="placa_sr1" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
+      <div class="field-label"><span>Placa SR2</span><input type="text" id="placa_sr2" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
     </div>
   </div>
 
@@ -114,14 +111,14 @@
   <!-- OBSERVAÇÕES -->
   <div class="card">
     <div class="card-header">Observações</div>
-    <label>
-      <span>Observações gerais (itens NOK são adicionados automaticamente)</span>
-      <textarea id="observacoes" rows="8" placeholder="OBSERVAÇÕES..."
+    <div class="field-label">
+      <span>Observações gerais</span>
+      <textarea id="observacoes" rows="8" placeholder="TEXTO AUTOMÁTICO EM MAIÚSCULO..."
         oninput="this.value=aplicarFormatacaoObs(this.value)"></textarea>
-    </label>
+    </div>
     <div class="fields col2" style="margin-top:12px">
-      <label><span>Conferente / Vistoriador</span><input type="text" id="vistoriador"></label>
-      <label><span>Elaborado / Aprovado por</span><input type="text" id="aprovado" value="Andre Cruz"></label>
+      <div class="field-label"><span>Conferente / Vistoriador</span><input type="text" id="vistoriador"></div>
+      <div class="field-label"><span>Elaborado / Aprovado por</span><input type="text" id="aprovado" value="Andre Cruz"></div>
     </div>
   </div>
 
@@ -130,7 +127,7 @@
 
 <footer>JCE Transportes · Check List de Manutenção Preventiva · Rev. 00</footer>
 
-<!-- MODAL ASSINATURA EM ETAPAS -->
+<!-- ── MODAL ASSINATURAS ──────────────────────────────────────────────── -->
 <div id="modal-overlay">
   <div id="modal">
     <div class="steps-wrap">
@@ -145,7 +142,6 @@
       <span id="lbl2">Motorista</span>
       <span id="lbl3">Confirmar</span>
     </div>
-
     <div id="step1">
       <h2>Assinatura do Conferente</h2>
       <p class="modal-sub">Assine no campo abaixo com o dedo ou mouse.</p>
@@ -158,7 +154,6 @@
         <button class="btn-confirm" onclick="irEtapa(2)">Próximo →</button>
       </div>
     </div>
-
     <div id="step2" style="display:none">
       <h2>Assinatura do Motorista</h2>
       <p class="modal-sub">Assine no campo abaixo com o dedo ou mouse.</p>
@@ -171,10 +166,9 @@
         <button class="btn-confirm" onclick="irEtapa(3)">Próximo →</button>
       </div>
     </div>
-
     <div id="step3" style="display:none">
       <h2>Confirmar e Gerar PDF</h2>
-      <p class="modal-sub">Verifique as assinaturas abaixo antes de gerar o documento.</p>
+      <p class="modal-sub">Verifique as assinaturas antes de gerar o documento.</p>
       <div class="confirm-previews">
         <div class="confirm-box">
           <div class="confirm-box-label">Conferente / Vistoriador</div>
@@ -190,6 +184,22 @@
         <button class="btn-confirm green" onclick="gerarPDF()">✓ Gerar PDF</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── POPUP CARRETA 1 / CARRETA 2 ───────────────────────────────────── -->
+<div id="popup-carreta" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;padding:28px 32px;width:340px;max-width:94vw;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center;">
+    <p style="font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:6px;">NOK em qual carreta?</p>
+    <p id="popup-item-desc" style="font-size:12px;color:#666;margin-bottom:20px;"></p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button onclick="resolverCarreta('CARRETA 1')"
+        style="background:#1a1a2e;color:#fff;border:none;border-radius:7px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;">CARRETA 1</button>
+      <button onclick="resolverCarreta('CARRETA 2')"
+        style="background:#1675b0;color:#fff;border:none;border-radius:7px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;">CARRETA 2</button>
+    </div>
+    <button onclick="cancelarCarreta()"
+      style="margin-top:14px;background:none;border:1.5px solid #ddd;border-radius:6px;padding:7px 20px;font-size:12px;cursor:pointer;color:#888;">Cancelar</button>
   </div>
 </div>
 
