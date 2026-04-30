@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════
    LOGIN
    ══════════════════════════════════════════════════════ */
-/*(function verificarSessao() {
+(function verificarSessao() {
   if (sessionStorage.getItem('jce_auth') === '1') {
     const o = document.getElementById('login-overlay');
     if (o) o.style.display = 'none';
