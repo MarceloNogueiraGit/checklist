@@ -1,220 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JCE Transportes – Check List</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JCE Transportes – Check List</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<img id="logo-img-hidden" src="assets/img/logo.png" style="display:none" crossorigin="anonymous">
+<!-- logo oculto para uso no PDF -->
+<img id="logo-pdf" src="assets/img/logo.png" style="display:none" crossorigin="anonymous">
 
-<!-- ── LOGIN ─────────────────────────────────────────────────────────── -->
-
-<!-- <div id="login-overlay">
+<!-- ════════════════════════════════ LOGIN ════════════════════════════════ -->
+<div id="login-overlay">
   <div class="login-bg">
-    <div class="lp lp1"></div><div class="lp lp2"></div>
-    <div class="lp lp3"></div><div class="lp lp4"></div>
+    <div class="lp lp1"></div>
+    <div class="lp lp2"></div>
+    <div class="lp lp3"></div>
+    <div class="lp lp4"></div>
   </div>
   <div class="login-card">
-    <div class="login-logo"><img src="assets/img/logo.png" alt="JCE Transportes"></div>
+    <div class="login-logo">
+      <img src="assets/img/logo.png" alt="JCE Transportes">
+    </div>
     <h2 class="login-title">Acesso ao Sistema</h2>
     <p class="login-sub">Check List de Manutenção Preventiva</p>
     <div class="login-form">
       <div class="login-field">
-        <span class="login-field-icon">👤</span>
-        <input type="text" id="login-user" placeholder="Usuário" autocomplete="username" spellcheck="false">
+        <span class="login-icon">👤</span>
+        <input type="text" id="login-user" placeholder="Usuário"
+               autocomplete="username" spellcheck="false">
       </div>
       <div class="login-field">
-        <span class="login-field-icon">🔒</span>
-        <input type="password" id="login-pass" placeholder="Senha" autocomplete="current-password"
-               onkeydown="if(event.key==='Enter') tentarLogin()">
+        <span class="login-icon">🔒</span>
+        <input type="password" id="login-pass" placeholder="Senha"
+               autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')tentarLogin()">
       </div>
       <div id="login-erro" class="login-erro"></div>
       <button class="login-btn" onclick="tentarLogin()">Entrar</button>
     </div>
-    <p class="login-footer">© JCE Transportes · Uso interno</p>
+    <p class="login-rodape">© JCE Transportes · Uso interno</p>
   </div>
 </div>
 
-<!-- ── HEADER ────────────────────────────────────────────────────────── -->
-
+<!-- ════════════════════════════════ HEADER ══════════════════════════════ -->
 <header>
-  <div class="header-text">
+  <div class="header-texto">
     <h1>Check List de Manutenção Preventiva</h1>
     <p>Frota / Manutenção — JCE Transportes</p>
   </div>
   <img src="assets/img/logo.png" alt="JCE Transportes" class="header-logo">
 </header>
 
+<!-- ════════════════════════════════ CONTEÚDO ════════════════════════════ -->
 <div class="wrap">
 
   <!-- IDENTIFICAÇÃO -->
-
   <div class="card">
-    <div class="card-header">Identificação</div>
-    <div class="fields col4" style="margin-bottom:14px">
-      <div class="field-label"><span>Data</span><input type="date" id="data"></div>
-      <div class="field-label"><span>Revisão</span><input type="text" id="revisao" value="00"></div>
-      <div class="field-label"><span>KM</span><input type="text" id="km" placeholder="Ex: 150.000" oninput="formatarKM(this)"></div>
-      <div class="field-label"><span>Departamento</span><input type="text" id="departamento" value="Frota / Manutenção"></div>
+    <div class="card-titulo">Identificação</div>
+    <div class="grid g4" style="margin-bottom:14px">
+      <div class="campo"><span>Data</span><input type="date" id="data"></div>
+      <div class="campo"><span>Revisão</span><input type="text" id="revisao" value="00"></div>
+      <div class="campo"><span>KM</span><input type="text" id="km" placeholder="150.000" oninput="fmtKM(this)"></div>
+      <div class="campo"><span>Departamento</span><input type="text" id="departamento" value="Frota / Manutenção"></div>
     </div>
-    <div style="margin-bottom:14px">
-      <span style="font-size:10.5px;font-weight:700;color:var(--label);text-transform:uppercase;letter-spacing:.5px;">Tipo de Veículo (selecione um ou mais)</span>
-      <div class="tipo-group">
-        <label class="tipo-option"><input type="checkbox" id="tipo_cavalo" onchange="atualizarObsNOK()"><span>Cavalo</span></label>
-        <label class="tipo-option"><input type="checkbox" id="tipo_sider"  onchange="atualizarObsNOK()"><span>Sider</span></label>
-        <label class="tipo-option"><input type="checkbox" id="tipo_rodotrem" onchange="atualizarObsNOK()"><span>Rodotrem</span></label>
+    <div class="campo" style="margin-bottom:14px">
+      <span>Tipo de Veículo (selecione um ou mais)</span>
+      <div class="tipo-grupo">
+        <label class="tipo-op"><input type="checkbox" id="tipo_cavalo" onchange="atualizarObs()"><span>Cavalo</span></label>
+        <label class="tipo-op"><input type="checkbox" id="tipo_sider"  onchange="atualizarObs()"><span>Sider</span></label>
+        <label class="tipo-op"><input type="checkbox" id="tipo_rodotrem" onchange="atualizarObs()"><span>Rodotrem</span></label>
       </div>
     </div>
-    <div class="fields col5">
-      <div class="field-label"><span>Nome do Motorista</span><input type="text" id="motorista"></div>
-      <div class="field-label"><span>Placa Cavalo</span><input type="text" id="placa_cavalo" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
-      <div class="field-label"><span>Placa SR1</span><input type="text" id="placa_sr1" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
-      <div class="field-label"><span>Placa SR2</span><input type="text" id="placa_sr2" maxlength="8" oninput="formatarPlaca(this)" placeholder="AAA-1234"></div>
+    <div class="grid g5">
+      <div class="campo"><span>Nome do Motorista</span><input type="text" id="motorista"></div>
+      <div class="campo"><span>Placa Cavalo</span><input type="text" id="placa_cavalo" maxlength="8" oninput="fmtPlaca(this)" placeholder="AAA-1234"></div>
+      <div class="campo"><span>Placa SR1</span><input type="text" id="placa_sr1" maxlength="8" oninput="fmtPlaca(this)" placeholder="AAA-1234"></div>
+      <div class="campo"><span>Placa SR2</span><input type="text" id="placa_sr2" maxlength="8" oninput="fmtPlaca(this)" placeholder="AAA-1234"></div>
     </div>
   </div>
 
   <!-- CAVALO MECÂNICO -->
-
   <div class="card">
-    <div class="card-header">Cavalo Mecânico</div>
-    <div class="sub-title">Lubrificação</div>
-    <table class="item-table"><tbody id="b_lub"></tbody></table>
-    <div class="sub-title">Motor</div>
-    <table class="item-table"><tbody id="b_motor"></tbody></table>
-    <div class="sub-title">Elétrica</div>
-    <table class="item-table"><tbody id="b_eletrica"></tbody></table>
-    <div class="sub-title">Freio</div>
-    <table class="item-table"><tbody id="b_freio_cav"></tbody></table>
-    <div class="sub-title">Cabine</div>
-    <table class="item-table"><tbody id="b_cabine"></tbody></table>
-    <div class="sub-title">Chassi</div>
-    <table class="item-table"><tbody id="b_chassi_cav"></tbody></table>
-    <div class="sub-title">Emissão de Gases</div>
-    <table class="item-table"><tbody id="b_gases"></tbody></table>
+    <div class="card-titulo">Cavalo Mecânico</div>
+    <div class="subtitulo">Lubrificação</div>
+    <table class="tabela"><tbody id="b_lub"></tbody></table>
+    <div class="subtitulo">Motor</div>
+    <table class="tabela"><tbody id="b_motor"></tbody></table>
+    <div class="subtitulo">Elétrica</div>
+    <table class="tabela"><tbody id="b_eletrica"></tbody></table>
+    <div class="subtitulo">Freio</div>
+    <table class="tabela"><tbody id="b_freio_cav"></tbody></table>
+    <div class="subtitulo">Cabine</div>
+    <table class="tabela"><tbody id="b_cabine"></tbody></table>
+    <div class="subtitulo">Chassi</div>
+    <table class="tabela"><tbody id="b_chassi_cav"></tbody></table>
+    <div class="subtitulo">Emissão de Gases</div>
+    <table class="tabela"><tbody id="b_gases"></tbody></table>
   </div>
 
   <!-- SEMI-REBOQUE -->
-
   <div class="card">
-    <div class="card-header">Semi-Reboque</div>
-    <div class="sub-title">Freio</div>
-    <table class="item-table"><tbody id="b_freio_sr"></tbody></table>
-    <div class="sub-title">Outros</div>
-    <table class="item-table"><tbody id="b_outros"></tbody></table>
-    <div class="sub-title">Chassi</div>
-    <table class="item-table"><tbody id="b_chassi_sr"></tbody></table>
-    <div class="sub-title">Suspensão</div>
-    <table class="item-table"><tbody id="b_suspensao"></tbody></table>
-    <div class="sub-title">Compartimento de Carga</div>
-    <table class="item-table"><tbody id="b_carga"></tbody></table>
+    <div class="card-titulo">Semi-Reboque</div>
+    <div class="subtitulo">Freio</div>
+    <table class="tabela"><tbody id="b_freio_sr"></tbody></table>
+    <div class="subtitulo">Outros</div>
+    <table class="tabela"><tbody id="b_outros"></tbody></table>
+    <div class="subtitulo">Chassi</div>
+    <table class="tabela"><tbody id="b_chassi_sr"></tbody></table>
+    <div class="subtitulo">Suspensão</div>
+    <table class="tabela"><tbody id="b_suspensao"></tbody></table>
+    <div class="subtitulo">Compartimento de Carga</div>
+    <table class="tabela"><tbody id="b_carga"></tbody></table>
   </div>
 
   <!-- OBSERVAÇÕES -->
-
   <div class="card">
-    <div class="card-header">Observações</div>
-    <div class="field-label">
-      <span>Observações gerais</span>
-      <textarea id="observacoes" rows="8" placeholder="TEXTO AUTOMÁTICO EM MAIÚSCULO..."
-        oninput="this.value=aplicarFormatacaoObs(this.value)"></textarea>
+    <div class="card-titulo">Observações</div>
+    <div class="campo">
+      <span>Observações gerais (itens NOK são inseridos automaticamente)</span>
+      <textarea id="observacoes" rows="8"
+        placeholder="TEXTO EM MAIÚSCULO AUTOMÁTICO..."
+        oninput="this.value=this.value.toUpperCase()"></textarea>
     </div>
-    <div class="fields col2" style="margin-top:12px">
-      <div class="field-label"><span>Conferente / Vistoriador</span><input type="text" id="vistoriador"></div>
-      <div class="field-label"><span>Elaborado / Aprovado por</span><input type="text" id="aprovado" value="Andre Cruz"></div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="campo"><span>Conferente / Vistoriador</span><input type="text" id="vistoriador"></div>
+      <div class="campo"><span>Elaborado / Aprovado por</span><input type="text" id="aprovado" value="Andre Cruz"></div>
     </div>
   </div>
 
-<button class="btn-pdf" onclick="abrirModal()">✍ Assinar e Gerar PDF</button>
-
+  <button class="btn-pdf" onclick="abrirModal()">✍ Assinar e Gerar PDF</button>
 </div>
 
 <footer>JCE Transportes · Check List de Manutenção Preventiva · Rev. 00</footer>
 
-<!-- ── MODAL ASSINATURAS ──────────────────────────────────────────────── -->
-
-<div id="modal-overlay">
+<!-- ════════════════════════════ MODAL ASSINATURAS ═══════════════════════ -->
+<div id="modal-bg">
   <div id="modal">
-    <div class="steps-wrap">
+    <div class="steps-linha">
       <div class="step-dot active" id="dot1">1</div>
-      <div class="step-line" id="line1"></div>
+      <div class="step-bar" id="bar1"></div>
       <div class="step-dot" id="dot2">2</div>
-      <div class="step-line" id="line2"></div>
+      <div class="step-bar" id="bar2"></div>
       <div class="step-dot" id="dot3">✓</div>
     </div>
     <div class="steps-labels">
-      <span id="lbl1" class="active">Conferente</span>
+      <span id="lbl1" class="ativo">Conferente</span>
       <span id="lbl2">Motorista</span>
       <span id="lbl3">Confirmar</span>
     </div>
-    <div id="step1">
+
+    <!-- Etapa 1 -->
+    <div id="etapa1">
       <h2>Assinatura do Conferente</h2>
       <p class="modal-sub">Assine no campo abaixo com o dedo ou mouse.</p>
-      <div class="sig-label">Conferente / Vistoriador</div>
-      <div class="sig-wrap"><canvas id="canvas_conf" class="sig-canvas"></canvas></div>
-      <p class="sig-hint">Assine dentro do campo acima</p>
-      <div class="sig-actions"><button class="btn-clear" onclick="limpar('canvas_conf')">✕ Limpar</button></div>
-      <div class="modal-footer">
-        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-confirm" onclick="irEtapa(2)">Próximo →</button>
+      <div class="sig-titulo">Conferente / Vistoriador</div>
+      <div class="sig-caixa"><canvas id="canvas_conf" class="sig-canvas"></canvas></div>
+      <p class="sig-dica">Assine dentro do campo acima</p>
+      <div class="sig-acoes"><button class="btn-limpar" onclick="limparCanvas('canvas_conf')">✕ Limpar</button></div>
+      <div class="modal-rodape">
+        <button class="btn-sec" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-pri" onclick="irEtapa(2)">Próximo →</button>
       </div>
     </div>
-    <div id="step2" style="display:none">
+
+    <!-- Etapa 2 -->
+    <div id="etapa2" style="display:none">
       <h2>Assinatura do Motorista</h2>
       <p class="modal-sub">Assine no campo abaixo com o dedo ou mouse.</p>
-      <div class="sig-label">Motorista</div>
-      <div class="sig-wrap"><canvas id="canvas_mot" class="sig-canvas"></canvas></div>
-      <p class="sig-hint">Assine dentro do campo acima</p>
-      <div class="sig-actions"><button class="btn-clear" onclick="limpar('canvas_mot')">✕ Limpar</button></div>
-      <div class="modal-footer">
-        <button class="btn-cancel" onclick="irEtapa(1)">← Voltar</button>
-        <button class="btn-confirm" onclick="irEtapa(3)">Próximo →</button>
+      <div class="sig-titulo">Motorista</div>
+      <div class="sig-caixa"><canvas id="canvas_mot" class="sig-canvas"></canvas></div>
+      <p class="sig-dica">Assine dentro do campo acima</p>
+      <div class="sig-acoes"><button class="btn-limpar" onclick="limparCanvas('canvas_mot')">✕ Limpar</button></div>
+      <div class="modal-rodape">
+        <button class="btn-sec" onclick="irEtapa(1)">← Voltar</button>
+        <button class="btn-pri" onclick="irEtapa(3)">Próximo →</button>
       </div>
     </div>
-    <div id="step3" style="display:none">
+
+    <!-- Etapa 3 -->
+    <div id="etapa3" style="display:none">
       <h2>Confirmar e Gerar PDF</h2>
       <p class="modal-sub">Verifique as assinaturas antes de gerar o documento.</p>
-      <div class="confirm-previews">
-        <div class="confirm-box">
-          <div class="confirm-box-label">Conferente / Vistoriador</div>
+      <div class="preview-grid">
+        <div class="preview-box">
+          <div class="preview-label">Conferente / Vistoriador</div>
           <img id="prev_conf" src="" alt="Assinatura conferente">
         </div>
-        <div class="confirm-box">
-          <div class="confirm-box-label">Motorista</div>
+        <div class="preview-box">
+          <div class="preview-label">Motorista</div>
           <img id="prev_mot" src="" alt="Assinatura motorista">
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn-cancel" onclick="irEtapa(2)">← Voltar</button>
-        <button class="btn-confirm green" onclick="gerarPDF()">✓ Gerar PDF</button>
+      <div class="modal-rodape">
+        <button class="btn-sec" onclick="irEtapa(2)">← Voltar</button>
+        <button class="btn-pri verde" onclick="gerarPDF()">✓ Gerar PDF</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── POPUP CARRETA 1 / CARRETA 2 / AMBAS ────────────────────────────── -->
-
-<div id="popup-carreta" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:12px;padding:28px 32px;width:360px;max-width:94vw;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center;">
-    <p style="font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:6px;">NOK em qual carreta?</p>
-    <p id="popup-item-desc" style="font-size:12px;color:#666;margin-bottom:20px;"></p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <button onclick="resolverCarreta('CARRETA 1')"
-        style="background:#1a1a2e;color:#fff;border:none;border-radius:7px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;">CARRETA 1</button>
-      <button onclick="resolverCarreta('CARRETA 2')"
-        style="background:#1675b0;color:#fff;border:none;border-radius:7px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;">CARRETA 2</button>
-      <button onclick="resolverCarreta('AMBAS')"
-        style="background:#16a34a;color:#fff;border:none;border-radius:7px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;">AMBAS</button>
+<!-- ══════════════════════════ POPUP CARRETA ════════════════════════════ -->
+<div id="popup-carreta">
+  <div class="popup-caixa">
+    <p class="popup-titulo">NOK em qual carreta?</p>
+    <p id="popup-desc" class="popup-desc"></p>
+    <div class="popup-botoes">
+      <button class="popup-btn azul-esc" onclick="resolverCarreta('CARRETA 1')">CARRETA 1</button>
+      <button class="popup-btn azul"     onclick="resolverCarreta('CARRETA 2')">CARRETA 2</button>
+      <button class="popup-btn verde"    onclick="resolverCarreta('AMBAS')">AMBAS</button>
     </div>
-    <button onclick="cancelarCarreta()"
-      style="margin-top:14px;background:none;border:1.5px solid #ddd;border-radius:6px;padding:7px 20px;font-size:12px;cursor:pointer;color:#888;">Cancelar</button>
+    <button class="popup-cancelar" onclick="cancelarCarreta()">Cancelar</button>
   </div>
 </div>
 
 <script src="assets/js/app.js"></script>
-
 </body>
 </html>
