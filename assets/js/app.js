@@ -30,27 +30,27 @@ const ITENS = {
   ],
   cabine: [
     [10, { type:'taco', label:'Tacógrafo' }],
-    [11, 'Tacógrafo à disco: possui discos para substituição?'],
+    [11, 'Tacógrafo: possui discos/bobinas para substituição?'],
     [12, 'Tacógrafo e Computador de Bordo em Perfeito Estado de Funcionamento'],
-    [13, 'Adesivo de Tara e Lotação'],
-    [14, 'Para-brisa sem Trincas / Limpadores / esguicho de água'],
-    [15, { type:'mes', label:'Extintor' }]
+    [13, 'Kit capacete verde, máscara, luvas e óculos de proteção'],
+    [14, 'Kit capacete branco e colete reflexivo'],
+    [15, 'Adesivo de Tara e Lotação'],
+    [16, 'Para-brisa sem Trincas / Limpadores / esguicho de água'],
+    [17, { type:'mes', label:'Extintor' }]
   ],
   chassi_cav: [
-    [16, 'Longarinas e Travessas (verificar corrosão / trinca / torção / amassado)'],
-    [17, 'Para-choque (amassado / Pintura)'],
-    [18, 'Placa (Lacre / Iluminação / Pintura)'],
-    [19, 'Suporte dos Grampos (verificar: grampos/porcas/feixe de molas/batentes e suportes)'],
-    [20, 'Para-Lama / Para-barro (verificar)'],
-    [21, 'Quinta-Roda e Gavião (examinar folga) Pino Rei'],
-    [22, 'Pneus (avaliar acima de 2,5 mm +/- 0,5 mm) inclusive estepe - aperto de parafusos das rodas'],
-    [23, 'Alinhamento e Balanceamento'],
-    [24, 'Tanques de combustível sem vazamentos e suporte do tanque'],
-    [25, 'Defletor de ar'],
-    [26, 'Estofados, capas, cortinas, carpetes e tapetes'],
-    [27, 'Capa de bateria'],
-    [28, 'Kit capacete verde, máscara, luvas e óculos de proteção'],
-    [29, 'Kit capacete branco e colete reflexivo'],
+    [18, 'Longarinas e Travessas (verificar corrosão / trinca / torção / amassado)'],
+    [19, 'Para-choque (amassado / Pintura)'],
+    [20, 'Placa (Lacre / Iluminação / Pintura)'],
+    [21, 'Suporte dos Grampos (verificar: grampos/porcas/feixe de molas/batentes e suportes)'],
+    [22, 'Para-Lama / Para-barro (verificar)'],
+    [23, 'Quinta-Roda e Gavião (examinar folga) Pino Rei'],
+    [24, 'Pneus (avaliar acima de 2,5 mm +/- 0,5 mm) inclusive estepe - aperto de parafusos das rodas'],
+    [25, 'Alinhamento e Balanceamento'],
+    [26, 'Tanques de combustível sem vazamentos e suporte do tanque'],
+    [27, 'Defletor de ar'],
+    [28, 'Estofados, capas, cortinas, carpetes e tapetes'],
+    [29, 'Capa de bateria'],
     [30, 'Calço / Trava de roda']
   ],
   gases: [
@@ -315,8 +315,7 @@ function extraPDF(n, d) {
 }
 
 /* ══════════════════════════════════════════════════════
-   OBSERVAÇÕES AUTOMÁTICAS (NOK)
-   Cursor não se move ao editar texto manual
+   OBSERVAÇÕES  (NOK)
    ══════════════════════════════════════════════════════ */
 const SEP = '\u200B';
 
@@ -324,7 +323,7 @@ function coletarNOK(grupos, filtro) {
   const linhas = [];
   for (const grp of grupos) {
     (ITENS[grp] || []).forEach(([n, d]) => {
-      if (isTaco(d)) return; // tacógrafo não tem NOK
+      if (isTaco(d)) return; // 
       if (!document.getElementById(`i${n}_nok`)?.checked) return;
       if (filtro !== undefined) {
         const atr = nokCarreta[n];
