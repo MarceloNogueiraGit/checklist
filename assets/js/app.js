@@ -32,7 +32,7 @@ const ITENS = {
     [10, { type:'taco', label:'Tacógrafo' }],
     [11, 'Tacógrafo: possui discos/bobinas para substituição?'],
     [12, 'Tacógrafo e Computador de Bordo em Perfeito Estado de Funcionamento'],
-    [13, 'Kit capacete verde, máscara, luvas e óculos de proteção'],
+    [13, 'Kit Emergência: capacete verde, máscara, luvas e óculos de proteção'],
     [14, 'Kit capacete branco e colete reflexivo'],
     [15, 'Adesivo de Tara e Lotação'],
     [16, 'Para-brisa sem Trincas / Limpadores / esguicho de água'],
